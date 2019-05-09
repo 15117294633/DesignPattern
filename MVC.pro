@@ -33,7 +33,10 @@ SOURCES += \
     IController.cpp \
     XControllerFactory.cpp \
     XPenGraph.cpp \
-    XErasGraph.cpp
+    XErasGraph.cpp \
+    XRectGraph.cpp \
+    XImageGraph.cpp \
+    XCircleGraph.cpp
 
 HEADERS += \
         XimageEdit.h \
@@ -48,7 +51,13 @@ HEADERS += \
     XControllerFactory.h \
     IGraph.h \
     XPenGraph.h \
-    XErasGraph.h
+    XErasGraph.h \
+    Factroy.h \
+    build.h \
+    XRectGraph.h \
+    XErasGraph.h \
+    XImageGraph.h \
+    XCircleGraph.h
 
 FORMS += \
         ximageedit.ui

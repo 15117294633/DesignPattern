@@ -1,4 +1,4 @@
-#ifndef XIMAGE_H
+﻿#ifndef XIMAGE_H
 #define XIMAGE_H
 
 #include <QWidget>
@@ -15,7 +15,6 @@ public:
 
     explicit Ximage(QWidget *parent = nullptr);
 protected:
-    //QImage src;
     IController *c = 0;
 signals:
 
@@ -23,6 +22,8 @@ public slots:
     void open_slot();
     void erase_slot();
     void pen_slot();
+    void rect_slot();
+    void circle_slot();
 };
 
 #endif // XIMAGE_H

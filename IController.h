@@ -1,4 +1,4 @@
-#ifndef ICONTROLLER_H
+﻿#ifndef ICONTROLLER_H
 #define ICONTROLLER_H
 class XModel;
 class IView;
@@ -8,7 +8,10 @@ class IView;
 enum XSTATUS
 {
     XPEN,
-    XERASER
+    XERASER,
+    XRECT,
+    XIMAGE,
+    XCIRCLE
 };
 
 class IController
@@ -23,9 +26,10 @@ public:
     virtual bool InitBack(const char *url);
     virtual void Paint();
     /*添加模型*/
-    virtual void AddModel();
+    virtual void AddModel(int s=-1);
     virtual void AddData(int x,int y);
     virtual void Set_Current_Index(XSTATUS sta);
+    virtual void NotfyAll();
 protected:
     IView *v = 0;
     XModel *m = 0;

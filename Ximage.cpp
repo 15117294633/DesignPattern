@@ -1,4 +1,4 @@
-#include "Ximage.h"
+﻿#include "Ximage.h"
 #include "qdebug.h"
 #include "QFileDialog"
 #include "XEditView.h"
@@ -33,17 +33,42 @@ void Ximage::pen_slot()
 {
     c->Set_Current_Index(XPEN);
 }
+//画圆
+void Ximage::circle_slot()
+{
+    c->Set_Current_Index(XCIRCLE);
+}
+void Ximage::rect_slot()
+{
+    c->Set_Current_Index(XRECT);
+}
  void Ximage::paintEvent(QPaintEvent *e)
  {
      c->Paint();
  }
  void Ximage::mousePressEvent(QMouseEvent *e)
  {
+
+//     QColor color;
+//     if(red(id)) color = Qt::red;
+//     else color = Qt::black;
+
+//     p.setPen(QPen(QBrush(color), 2));
+
+//     if(id == _selectid) p.setBrush(Qt::gray);
+//     else p.setBrush(Qt::yellow);
+
+//     p.drawEllipse(cell(id));
+
+//     p.setFont(QFont("system", _r*1.2, 700));
+//     p.drawText(cell(id), name(id), QTextOption(Qt::AlignCenter));
+
+
      c->AddModel();
      c->AddData(e->x(),e->y());
  }
  void Ximage::mouseMoveEvent(QMouseEvent*e)
  {
-    c->AddData(e->x(),e->y());
-     update();
+   c->AddData(e->x(),e->y());
+    update();
  }
