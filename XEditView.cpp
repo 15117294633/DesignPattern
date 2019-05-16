@@ -7,7 +7,6 @@
 #include "XPenGraph.h"
 #include "map"
 #include "IGraph.h"
-//XPenGraph xpen;
 XEditView::XEditView()
 {
     out = QImage(1280, 720, QImage::Format_RGB888);
@@ -24,7 +23,7 @@ void XEditView::InitDevice(void *d)
    map<int, IGraph*>::iterator itr = views.begin();
    for (; itr != views.end(); itr++)
    {
-        itr->second->Init(painter, &src);;
+        itr->second->Init(painter, &src);
    }
 }
 //载入背景图
@@ -40,7 +39,7 @@ bool XEditView::InitBack(const char *url)
      if (painter->isActive())
          painter->end();
      out = src.copy();
-     painter->begin(&out);
+    painter->begin(&out);
      return ret;
 }
 void XEditView::Update(XSubject *sub)
@@ -49,18 +48,16 @@ void XEditView::Update(XSubject *sub)
    if (!sub)return;
        //XModel
     XModel *m = static_cast<XModel*>(sub);
+    //实际拿到是对应的
     views[m->type]->Draw(m);
 }
 //绘制结果
 void XEditView::Paint()
 {
-    //QPainter p(device);
-    // p.drawImage(0, 0, src);
     //在device窗口绘制
     QPainter p(device);
 
     p.drawImage(0, 0, out);
-
 }
 XEditView::~XEditView()
 {

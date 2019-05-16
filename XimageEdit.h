@@ -1,4 +1,4 @@
-#ifndef XIMAGEEDIT_H
+﻿#ifndef XIMAGEEDIT_H
 #define XIMAGEEDIT_H
 
 #include <QWidget>

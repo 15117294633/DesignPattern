@@ -1,4 +1,4 @@
-#ifndef XEDITVIEW_H
+﻿#ifndef XEDITVIEW_H
 #define XEDITVIEW_H
 #include "QImage"
 #include <vector>
@@ -6,6 +6,7 @@
 #include <IView.h>
 #include <map>
 #include <IGraph.h>
+class QLabel;
 class QWidget;
 /*数据类型对象*/
 class QPainter;
@@ -41,7 +42,7 @@ public:
     QImage src;
     /*缓冲作用*/
     QImage out;
-    QPainter* painter;
+    QPainter* painter=nullptr;
     std::map<int,IGraph*> views;
 };
 

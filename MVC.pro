@@ -36,7 +36,15 @@ SOURCES += \
     XErasGraph.cpp \
     XRectGraph.cpp \
     XImageGraph.cpp \
-    XCircleGraph.cpp
+    XCircleGraph.cpp \
+    MainWindow.cpp \
+    NodeDialog.cpp \
+    TxtBuild.cpp \
+    RouteMange.cpp \
+    Route_Oper.cpp \
+    Do_move.cpp \
+    DoAddRoute.cpp \
+    DoRemoveRoute.cpp
 
 HEADERS += \
         XimageEdit.h \
@@ -57,7 +65,20 @@ HEADERS += \
     XRectGraph.h \
     XErasGraph.h \
     XImageGraph.h \
-    XCircleGraph.h
+    XCircleGraph.h \
+    MainWindow.h \
+    NodeDialog.h \
+    TxtBuild.h \
+    RouteMange.h \
+    Route_Oper.h \
+    IOperator.h \
+    Do_move.h \
+    DoAddRoute.h \
+    DoRemoveRoute.h
 
 FORMS += \
-        ximageedit.ui
+        ximageedit.ui \
+    MainWindow.ui
+
+RESOURCES += \
+    res.qrc

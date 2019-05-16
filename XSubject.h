@@ -1,11 +1,10 @@
-#ifndef XSUBJECT_H
+﻿#ifndef XSUBJECT_H
 #define XSUBJECT_H
 #include "vector"
 class IObserver;
 class XSubject
 {
 public:
-    int type;
     virtual void Notify();
     void Attach(IObserver *ob);
  protected:

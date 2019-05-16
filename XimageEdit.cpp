@@ -1,9 +1,8 @@
 ﻿#include "XimageEdit.h"
 #include "ui_ximageedit.h"
-
 XimageEdit::XimageEdit(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::XimageEdit)
+   ui(new Ui::XimageEdit)
 {
     ui->setupUi(this);
     connect(ui->openfile,SIGNAL(clicked(bool)),ui->image,SLOT(open_slot(void)));
@@ -12,7 +11,6 @@ XimageEdit::XimageEdit(QWidget *parent) :
     connect(ui->rect,SIGNAL(clicked(bool)),ui->image,SLOT(rect_slot(void)));
     connect(ui->Circle,SIGNAL(clicked(bool)),ui->image,SLOT(circle_slot(void)));
 }
-
 XimageEdit::~XimageEdit()
 {
     delete ui;
