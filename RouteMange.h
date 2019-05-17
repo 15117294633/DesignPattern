@@ -11,7 +11,7 @@ class RouteMange : public QDialog
 {
     Q_OBJECT
 private:
-      QSharedPointer<Route_Oper> route_oper;
+    QSharedPointer<Route_Oper> route_oper;
     IController* Controller;
     QPushButton* changeroute;
     QPushButton* deleteroute;
@@ -21,6 +21,7 @@ private:
 public:
     explicit RouteMange(QWidget *parent = nullptr);
     void Set_Control(IController* con);
+    void Add_Items();
 public slots:
     void route_change_slot();
     void route_delete_slot();

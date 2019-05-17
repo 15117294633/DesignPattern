@@ -28,6 +28,7 @@ public:
 
     virtual void Update(XSubject *sub);
 
+    virtual void Do_Update();
     template<class ViewClass>
     IGraph *RegView(int type)
     {

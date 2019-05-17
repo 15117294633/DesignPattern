@@ -12,6 +12,17 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     /*更换界面*/
 //    IController* c=new IController();
+//    c->Set_Bit(0);
+//    qDebug()<<c->Get_Bit_Unused();
+//    qDebug()<<c->Get_Bit_Unused();
+//    qDebug()<<c->Get_Bit_Unused();
+//    qDebug()<<c->Get_Bit_Unused();
+//    qDebug()<<c->Get_Bit_Unused();
+//    qDebug()<<c->Get_Bit_Unused();
+//    c->clear_bit(2);
+//    c->clear_bit(4);
+//    qDebug()<<c->Get_Bit_Unused();
+//    qDebug()<<c->Get_Bit_Unused();
 //    c->Add_Route(0);
 //    for(int i=0;i<10;i++)
 //    {

@@ -92,17 +92,30 @@ public:
     virtual void Add_Route(int num);
     virtual void Delete_Route(int num);
     virtual void Get_route(int num);
+    virtual void Edit_route(int num);
+
     virtual void Sort_Route_node();
     virtual int Find_Route_node(int index);
     virtual void Remove_Route_node();
     virtual void Add_Route_ndoe();
+    virtual void Show_ALL_Node();
+    /*获取位图*/
+    virtual int Get_Bit_Unused();
+    virtual void Set_Bit(int value);
+    virtual void clear_bit(int n);
+    /*update*/
+    virtual void update_c();
+    //路径导出功能
+    virtual void import_route(QString fileName);
     std::vector<Route_node>* curren_route;
     XModel *m;
-protected:
-    IView *v = 0;
-    IControllerFactroy* factroy;
     /*队列的方式存储对应的线路_map结构存储对应的数据*/
     std::map<int,std::vector<Route_node>*> route_map;
+protected:
+    /*位图实现对应的路线*/
+    int m_route_used;
+    IView *v = 0;
+    IControllerFactroy* factroy;   
     //所有的节点表
     std::vector<XModel*> m_task;
     XSTATUS current_index = XPEN;

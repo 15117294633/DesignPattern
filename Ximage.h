@@ -41,7 +41,7 @@ public slots:
     void add_node_slot();
     void remove_node_slot();
     void route_mange_slot();
-
+    void import_slot();
 
 };
 

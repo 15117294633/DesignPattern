@@ -22,13 +22,21 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
     connect(deleteroute,SIGNAL(clicked(bool)),this,SLOT(route_delete_slot()));
     connect(addroute,SIGNAL(clicked(bool)),this,SLOT(route_add_slot()));
     connect(showroute,SIGNAL(clicked(bool)),this,SLOT(route_show_slot()));
+    /*更新一下对应的线路*/
+//    int len;
+//    len=this->Controller->Get_route_count();
+//    for(int i=0;i<len;i++)
+//    {
+//        QString str=QString("route%1").arg(i);
+//        route_oper->route->addItem(str);
+//    }
 
 }
  void RouteMange::Set_Control(IController* con)
  {
      this->Controller=con;
      route_oper->Set_Control(con);
-     this->close();
+//     this->close();
  }
 
  void RouteMange::route_change_slot()
@@ -40,6 +48,7 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
     }
     qDebug()<<"change route";
     this->close();
+    Add_Items();
  }
  void RouteMange::route_delete_slot()
  {
@@ -49,6 +58,7 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
          this->Controller->Set_Current_Index(XDELETROUTE);
      }
      qDebug()<<"delete route";
+     Add_Items();
      this->close();
  }
  void RouteMange::route_add_slot()
@@ -58,10 +68,9 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
      {
          this->Controller->Set_Current_Index(XADDROUTE);
          /*加入对应的节点*/
-         int size=Controller->Get_route_count();
-         Controller->Add_Route(size+1);
-         qDebug()<<"add route :"<<size+1;
+         Controller->Add_Route(1);
      }
+     Add_Items();
      this->close();
  }
  void RouteMange::route_show_slot()
@@ -71,6 +80,23 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
      {
          this->Controller->Set_Current_Index(XSHOWROUTE);
      }
+     Add_Items();
      qDebug()<<"show route";
      this->close();
+ }
+ void RouteMange::Add_Items()
+ {
+     int len;
+     this->route_oper->route->clear();
+     len=this->Controller->Get_route_count();
+     if(len>=1)
+      {
+            std::map<int,std::vector<Route_node>*>::iterator iter;
+            for(iter=this->Controller->route_map.begin();iter!=this->Controller->route_map.end();iter++)
+            {
+                QString str=QString("route%1").arg(iter->first);
+                this->route_oper->route->addItem(str);
+            }
+      }
+
  }

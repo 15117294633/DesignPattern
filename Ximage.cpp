@@ -27,7 +27,7 @@ Ximage::Ximage(QWidget *parent)
 
     QAction *pAction1 = new QAction(pMenu);
     pAction1->setText(tr("删除节点"));
-    connect(pAction,SIGNAL(triggered()),this,SLOT(on_delete_action_trigered()));
+    connect(pAction1,SIGNAL(triggered()),this,SLOT(on_delete_action_trigered()));
     pMenu->addAction(pAction1);
 
     c=IController::Create(new XControllerFactory());
@@ -80,6 +80,14 @@ void Ximage::add_node_slot()
         qDebug()<<"ADD OK";
      }
 }
+void Ximage::import_slot()
+{
+  QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                                        "/home",
+                                                                        QFileDialog::ShowDirsOnly
+                                                                        | QFileDialog::DontResolveSymlinks);
+  this->c->import_route(dir);
+}
 void Ximage::remove_node_slot()
 {
     //获取对应的属性
@@ -93,6 +101,8 @@ void Ximage::node_selected()
     findToolBarAction("Arrow")->setEnabled(true);
     findToolBarAction("Node")->setEnabled(false);
     c->Set_Current_Index(XCIRCLE);
+    c->Show_ALL_Node();
+    update();
 }
 void  Ximage::do_move_slot(void)
 {
@@ -110,13 +120,13 @@ void Ximage::route_mange_slot()
 void Ximage::on_action_trigered()
 {
     //调用对应的策略更新组件
-//    c->do_contral(-1,-1);
-      c->Add_Route_ndoe();
-     update();
+    c->Add_Route_ndoe();
+    update();
 }
 void Ximage::on_delete_action_trigered()
 {
-
+    c->Remove_Route_node();
+    update();
 }
 
  void Ximage::mousePressEvent(QMouseEvent *e)
@@ -138,7 +148,7 @@ void Ximage::on_delete_action_trigered()
      }
       //判断事件为鼠标右键   右键弹出菜单
       if (e->button() == Qt::RightButton&&(c->Get_Current_Data()==XADDROUTE||
-                                        c->Get_Current_Data()==XDELETROUTE))
+                                        c->Get_Current_Data()==XCHANGEROUTE))
       {
            c->SetModel();
            if(c->Is_Valid_Point(e->x(),e->y()))

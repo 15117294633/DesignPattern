@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     initToolBar();
     connect(ui->openfile,SIGNAL(clicked(bool)),ui->image,SLOT(Open_slot_t()));
     connect(ui->route,SIGNAL(clicked(bool)),ui->image,SLOT(route_mange_slot()));
+    connect(ui->data_import,SIGNAL(clicked(bool)),ui->image,SLOT(import_slot()));
 }
 
 bool MainWindow::initToolBar()

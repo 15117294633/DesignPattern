@@ -17,9 +17,8 @@ class Node_Content;
 //实际的业务逻辑是在模型层去做
 class XModel:public XSubject
 {
-private:
-    Node_Content* context;
 public:
+    Node_Content* context;
     int type;
     int id;
     int x_pos;//控件的中心点x坐标

@@ -8,7 +8,7 @@ TxtBuild::TxtBuild()
 {
     this->con.clear();
 }
-void TxtBuild::builderData(Node_Content* content)
+QString TxtBuild::builderData(Node_Content* content)
 {
    this->con.clear();
    QString temp;
@@ -76,8 +76,6 @@ void TxtBuild::builderData(Node_Content* content)
       con.append(temp);
       con.append(' ');
       temp.clear();
-
-     con.append(' ');
      //设备使能
      temp=QString("%1%2").arg("0").arg(content->Equ_Sta);
      con.append(temp);
@@ -90,19 +88,27 @@ void TxtBuild::builderData(Node_Content* content)
      temp.clear();
      //场馆节点描述信息
      int len=content->Desc.length();
-     con.append(ByteArrayToHexString(content->Desc));
+     qDebug()<<len;
+     if(len>20)
+     {
+          con.append(ByteArrayToHexString(content->Desc).left(40));
+     }
+     else
+     {
+          con.append(ByteArrayToHexString(content->Desc));
+     }
      for(int i=len;i<20;i++)
      {
-        con.append(' ');
+        con.append('  ');
      }
      qDebug()<<con;
+     return con;
 }
 
 QString TxtBuild::ByteArrayToHexString(QByteArray data){
 
     QString ret(data.toHex().toUpper());
     int len = ret.length()/2;
-    qDebug()<<len;
     ret.insert(0,"");
     for(int i=1;i<len;i++)
     {

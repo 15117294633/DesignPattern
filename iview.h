@@ -1,4 +1,4 @@
-#ifndef IVIEW_H
+﻿#ifndef IVIEW_H
 #define IVIEW_H
 #include "IObserver.h"
 class IView:public IObserver
@@ -10,6 +10,7 @@ class IView:public IObserver
 
         //绘制out结果
     virtual void Paint() = 0;
+    virtual void Do_Update()=0;
 
 };
 #endif // IVIEW_H

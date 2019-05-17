@@ -8,7 +8,7 @@ class TxtBuild:public Builder
 private:
     QString con;
 public:
-    void builderData(Node_Content* content);
+    QString builderData(Node_Content* content);
     QString ByteArrayToHexString(QByteArray data);
     TxtBuild();
 };

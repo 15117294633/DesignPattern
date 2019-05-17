@@ -59,6 +59,10 @@ void XEditView::Paint()
 
     p.drawImage(0, 0, out);
 }
+void XEditView::Do_Update()
+{
+    this->device->update();
+}
 XEditView::~XEditView()
 {
 
