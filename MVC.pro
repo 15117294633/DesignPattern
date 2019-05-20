@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -44,7 +45,8 @@ SOURCES += \
     Route_Oper.cpp \
     Do_move.cpp \
     DoAddRoute.cpp \
-    DoRemoveRoute.cpp
+    DoRemoveRoute.cpp \
+    SqlLite_Helper.cpp
 
 HEADERS += \
         XimageEdit.h \
@@ -74,7 +76,9 @@ HEADERS += \
     IOperator.h \
     Do_move.h \
     DoAddRoute.h \
-    DoRemoveRoute.h
+    DoRemoveRoute.h \
+    SqlLite_Helper.h \
+    MySql.h
 
 FORMS += \
         ximageedit.ui \

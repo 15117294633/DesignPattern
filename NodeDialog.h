@@ -51,8 +51,8 @@ public slots:
     void Cal_slot();
 public:
     explicit NodeDialog(QWidget* parent = 0);
-
     void Set_Control(IController* con);
+    void Set_Content();
 };
 
 #endif // NODEDIALOG_H

@@ -9,8 +9,8 @@
 #include "IGraph.h"
 XEditView::XEditView()
 {
-    out = QImage(1280, 720, QImage::Format_RGB888);
-    src = QImage(1280, 720, QImage::Format_RGB888);
+    out = QImage(1050, 900, QImage::Format_RGB888);
+    src = QImage(1050, 900, QImage::Format_RGB888);
 }
 void XEditView::InitDevice(void *d)
 {

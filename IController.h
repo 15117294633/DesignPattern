@@ -3,6 +3,7 @@
 class XModel;
 class IView;
 class Ioperator;
+#include "MySql.h"
 #include "IControllerFactroy.h"
 #include "vector"
 #include "QPointer"
@@ -32,7 +33,7 @@ struct Node_Content
     int dir_angle;
     int Equ_Sta;
     int Equ_Type;
-    QByteArray Desc;
+    QString Desc;
     Node_Content& operator = (const Node_Content& obj)
     {
        if(this!=&obj)
@@ -49,6 +50,16 @@ struct Node_Content
            qDebug()<<Desc;
        }
        return *this;
+    }
+    void Init()
+    {
+        type=1;
+        Operator=1;
+        dir=3;
+        dir_angle=60;
+        Equ_Sta=1;
+        Equ_Type=0;
+        Desc="";
     }
 };
 struct Route_node
@@ -74,12 +85,14 @@ public:
     virtual void Paint();
     /*模型对应的操作*/
     virtual void AddModel(int s=-1);
+    virtual void RemoveModel();
     virtual void do_contral(int x,int y);
     virtual bool Is_Valid_Point(int x,int y);
     //模型添加节点数据
     virtual void AddNodeData(Node_Content& node);
-    //添加界面更新组件
+    //更新数据
     virtual void AddData(int x,int y);
+
     virtual void Set_Current_Index(XSTATUS sta);
     virtual XSTATUS Get_Current_Data();
 
@@ -111,16 +124,20 @@ public:
     XModel *m;
     /*队列的方式存储对应的线路_map结构存储对应的数据*/
     std::map<int,std::vector<Route_node>*> route_map;
+    //使用门面模式
+    My_Sql* Get_Sql();
 protected:
     /*位图实现对应的路线*/
     int m_route_used;
+    My_Sql* sql;
     IView *v = 0;
+    Builder* Export;
+    Ioperator* oper_do;
     IControllerFactroy* factroy;   
     //所有的节点表
     std::vector<XModel*> m_task;
     XSTATUS current_index = XPEN;
-    Builder* Export;
-    Ioperator* oper_do;
+
 };
 
 #endif // ICONTROLLER_H

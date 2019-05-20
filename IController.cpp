@@ -9,11 +9,13 @@
 #include "DoAddRoute.h"
 #include "DoRemoveRoute.h"
 #include "QFileDialog"
+#include "SqlLite_Helper.h"
 IController::IController()
 {
    /*选择导出方式,后期加入配置选项*/
     Export=new TxtBuild();
     this->Set_Bit(0);
+    sql=SqlLite_Helper::Get_Obj();
 }
 
 IController::~IController()
@@ -55,13 +57,32 @@ void IController::AddModel(int s)
    this->m->Attach(this->v);
    this->m_task.push_back(m);
 }
+//删除最后一个模型
+void IController::RemoveModel()
+{
+    if(this->m_task.size()>1)
+    {
+      this->m_task.pop_back();
+    }
+    NotfyAll();
+    this->update_c();
+}
 void IController::AddNodeData(Node_Content& node)
 {
     //更新数据到模型层
      qDebug()<<"model level";
-     Export->builderData(&node);
+     //Export->builderData(&node);
      this->m->update_context(node);
-
+     //更新至数据库中
+     qDebug()<<sql;
+     if(sql->Has_Id(this->m->id))//有数据元素的时候
+     {
+        sql->ModifiNode(&node);
+     }
+     else//创建该节点并插入到表中
+     {
+         sql->InsertIntoData(&node);
+     }
 }
 void IController::AddData(int x,int y)
 {
@@ -91,15 +112,6 @@ void  IController::do_contral(int x,int y)
     case XCIRCLE:
         this->AddData(x,y);
         break;
-        //        case XADDROUTE:
-        //         DoAddRoute::Get_Obj()->set_data(this);
-        //         DoAddRoute::Get_Obj()->Do_operator(x,y);
-        //        break;
-
-        //        case XDELETROUTE:
-        //         DoRemoveRoute::Get_Obj()->set_data(this);
-        //         DoRemoveRoute::Get_Obj()->Do_operator(x,y);
-        //        break;
     }
 
 }
@@ -283,8 +295,11 @@ void IController::clear_bit(int n)
     //clear对应的位置
     m_route_used&=~(1<<n);
 }
-void  IController::
-import_route(QString fileName)
+My_Sql* IController:: Get_Sql()
+{
+    return this->sql;
+}
+void  IController::import_route(QString fileName)
 {
     //遍历对应的节点,后期改进_采用多线程的方式去完成
     std::map<int,std::vector<Route_node>*>::iterator iter=route_map.begin();

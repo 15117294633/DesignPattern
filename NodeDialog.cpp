@@ -1,5 +1,6 @@
 ﻿#include "NodeDialog.h"
 #include "QDebug"
+#include  "XModel.h"
 NodeDialog::NodeDialog(QWidget* parent):
     QDialog(parent, Qt::WindowCloseButtonHint | Qt::Drawer)
   ,Controller(nullptr)
@@ -85,18 +86,18 @@ void NodeDialog::Ok_slot()
 {
     qDebug()<<"Ok_slot()";
     //获取对应节点的属性
-    content.node_id=Node_count.currentIndex();
-    content.Operator=Sta_op.currentIndex();
-    content.type=Node_type.currentIndex();
-    content.dir=Sta_turn.currentIndex();
+    content.node_id=Node_count.currentIndex()+1;
+    content.Operator=Sta_op.currentIndex()+1;
+    content.type=Node_type.currentIndex()+1;
+    content.dir=Sta_turn.currentIndex()+1;
     bool ret;
     content.dir_angle=Sta_turn_angle.text().toInt(&ret,10);
-    content.Equ_Sta=Equipment.currentIndex();
-    content.Equ_Type=Equipmenttype.currentIndex();
-    content.Desc=Node_Desc.text().toLocal8Bit();
+    content.Equ_Sta=Equipment.currentIndex()+1;
+    content.Equ_Type=Equipmenttype.currentIndex()+1;
+    content.Desc=Node_Desc.text();
     /*传输至控制层*/
-    this->Controller->AddNodeData(content);
-
+    this->Controller->AddNodeData(content);   
+    this->close();
 }
 void NodeDialog::Cal_slot()
 {
@@ -106,4 +107,35 @@ void NodeDialog::Cal_slot()
 void NodeDialog::Set_Control(IController* con)
 {
     this->Controller=con;
+}
+void NodeDialog::Set_Content()
+{
+    this->Node_count.setCurrentIndex(Controller->m->id-1);
+    if(Controller->Get_Sql()->Has_Id(Controller->m->id))
+    {
+         //初始化Data
+        Controller->Get_Sql()->FindNodeData(content,Controller->m->id);
+        //初始化对应的gui
+        this->Node_type.setCurrentIndex(content.type-1);
+        this->Sta_turn.setCurrentIndex(content.dir-1);
+        this->Equipment.setCurrentIndex(content.Equ_Sta-1);
+        this->Equipmenttype.setCurrentIndex(content.Equ_Type-1);
+        //站点操作内容
+        this->Sta_op.setCurrentIndex(content.Operator-1);
+        this->Sta_turn_angle.setText(QString::number(content.dir_angle));
+        this->Node_Desc.setText(content.Desc);
+
+    }
+    else
+    {
+        this->Node_Desc.setText("");
+        this->Node_type.setCurrentIndex(0);
+        this->Sta_turn.setCurrentIndex(0);
+        this->Equipment.setCurrentIndex(0);
+        this->Equipmenttype.setCurrentIndex(0);
+        this->Sta_op.setCurrentIndex(0);
+        this->Sta_turn_angle.setText(QString::number(90));
+        this->Node_Desc.setText(content.Desc);
+        content.Init();
+    }
 }

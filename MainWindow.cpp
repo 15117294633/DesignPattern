@@ -53,15 +53,6 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
         tb->addAction(action);
     }
 
-    ret = ret && makeAction(action, tb, "Add Route", ":/pic/add.png");
-
-    if( ret )
-    {
-        connect(action, SIGNAL(triggered()), ui->image, SLOT(add_node_slot()));
-        action->setEnabled(true);
-        tb->addAction(action);
-    }
-
     ret = ret && makeAction(action, tb, "Remove node", ":/pic/remove.png");
 
     if( ret )

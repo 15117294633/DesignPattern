@@ -51,17 +51,15 @@ void Ximage::Open_slot_t(void)
 }
 void Ximage::erase_slot()
 {
-
    c->Set_Current_Index(XERASER);
 }
 void Ximage::pen_slot()
 {
     c->Set_Current_Index(XPEN);
 }
-//////画圆
+//画图
 void Ximage::circle_slot()
 {
-
   c->Set_Current_Index(XCIRCLE);
 }
 void Ximage::rect_slot()
@@ -70,15 +68,15 @@ void Ximage::rect_slot()
 }
 void Ximage::add_node_slot()
 {
-     int count=c->Get_route_count();
-     QString str=QString("add route is %1").arg(count);
-     int ret=QMessageBox::information(this,"information",str,QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Cancel);
-     if(ret==QMessageBox::Ok)
-     {
-        //添加一个对应的路线
-         c->Add_Route(count+1);
-        qDebug()<<"ADD OK";
-     }
+//     int count=c->Get_route_count();
+//     QString str=QString("add route is %1").arg(count);
+//     int ret=QMessageBox::information(this,"information",str,QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Cancel);
+//     if(ret==QMessageBox::Ok)
+//     {
+//        //添加一个对应的路线
+//         c->Add_Route(count+1);
+//        qDebug()<<"ADD OK";
+//     }
 }
 void Ximage::import_slot()
 {
@@ -90,7 +88,9 @@ void Ximage::import_slot()
 }
 void Ximage::remove_node_slot()
 {
-    //获取对应的属性
+    findToolBarAction("Arrow")->setEnabled(true);
+    findToolBarAction("Node")->setEnabled(true);
+   this->c->RemoveModel();
 }
 void Ximage::paintEvent(QPaintEvent *e)
 {
@@ -115,6 +115,8 @@ void  Ximage::do_move_slot(void)
 }
 void Ximage::route_mange_slot()
 {
+    findToolBarAction("Arrow")->setEnabled(true);
+    findToolBarAction("Node")->setEnabled(false);
     route_mange->show();
 }
 void Ximage::on_action_trigered()
@@ -131,6 +133,7 @@ void Ximage::on_delete_action_trigered()
 
  void Ximage::mousePressEvent(QMouseEvent *e)
  {
+     qDebug()<<e->x()<<e->y();
      /*模型用于添加数据*/
      if(e->button()==Qt::LeftButton)
      {
@@ -178,7 +181,9 @@ void Ximage::on_delete_action_trigered()
      {
          if(c->Is_Valid_Point(event->x(),event->y()))
          {
+            current_node_Dlg->Set_Content();
             current_node_Dlg->show();
+
          }
      }
  }
@@ -198,7 +203,6 @@ QAction* Ximage::findToolBarAction(QString text)
                 ret=retf;
                 break;
             }
-
         }
     }
     return ret;

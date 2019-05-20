@@ -87,15 +87,16 @@ QString TxtBuild::builderData(Node_Content* content)
      con.append(' ');
      temp.clear();
      //场馆节点描述信息
-     int len=content->Desc.length();
+      QByteArray loc8=content->Desc.toLocal8Bit();
+     int len=loc8.length();
      qDebug()<<len;
      if(len>20)
      {
-          con.append(ByteArrayToHexString(content->Desc).left(40));
+          con.append(ByteArrayToHexString(loc8).left(40));
      }
      else
      {
-          con.append(ByteArrayToHexString(content->Desc));
+          con.append(ByteArrayToHexString(loc8));
      }
      for(int i=len;i<20;i++)
      {

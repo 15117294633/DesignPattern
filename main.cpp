@@ -5,7 +5,7 @@
 #include"QDebug"
 #include "MainWindow.h"
 #include "NodeDialog.h"
-
+#include "SqlLite_Helper.h"
 #include "IController.h"
 int main(int argc, char *argv[])
 {
@@ -40,7 +40,21 @@ int main(int argc, char *argv[])
 
 //    qDebug()<<c->Find_Route_node(5);
 
+     if(SqlLite_Helper::Get_Obj()->CreateDb())
+     {
+        qDebug()<<"create database ok";
+     }
+     else
+     {
+          qDebug()<<"create database fail";
+     }
+     Node_Content node;
+     SqlLite_Helper::Get_Obj()->FindNodeData(node,1);
 
+     if( SqlLite_Helper::Get_Obj()->Has_Id(1))
+     {
+        qDebug()<<"ok";
+     }
      MainWindow w;
      w.show();
 
