@@ -6,6 +6,8 @@
 #include <QDebug>
 void  XCircleGraph::Draw(XModel *m)
 {
+
+    qDebug()<<m->id<<":"<<"("<<m->x_pos<<":"<<m->y_pos<<")";
     if (!painter || !img)return;
 
     QPen pen; //画笔
@@ -19,8 +21,7 @@ void  XCircleGraph::Draw(XModel *m)
     painter->drawEllipse(QPointF(m->x_pos,m->y_pos),15,15);
     /*画一个文本的矩形*/
     pen.setWidth(10);
-     painter->setPen(pen);
-    qDebug()<<m->id;
+    painter->setPen(pen);
     painter->drawText(QPointF(m->x_pos-4,m->y_pos+2),QString::number(m->id, 10));
 
 }

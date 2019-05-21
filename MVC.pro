@@ -6,7 +6,7 @@
 
 QT       += core gui
 QT       += sql
-
+QT       += xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = MVC
@@ -46,7 +46,8 @@ SOURCES += \
     Do_move.cpp \
     DoAddRoute.cpp \
     DoRemoveRoute.cpp \
-    SqlLite_Helper.cpp
+    SqlLite_Helper.cpp \
+    XmlHelper.cpp
 
 HEADERS += \
         XimageEdit.h \
@@ -78,10 +79,10 @@ HEADERS += \
     DoAddRoute.h \
     DoRemoveRoute.h \
     SqlLite_Helper.h \
-    MySql.h
+    MySql.h \
+    XmlHelper.h
 
 FORMS += \
-        ximageedit.ui \
     MainWindow.ui
 
 RESOURCES += \

@@ -14,12 +14,14 @@ public:
         static  SqlLite_Helper obj;
         return &obj;
     }
+    /*节点表中*/
     bool CreateDb();
     bool Has_Id(int id);
     void InsertIntoData(Node_Content* node);
     void DeleteNode(int id);
     void ModifiNode(Node_Content* node);
     void FindNodeData(Node_Content& node,int id);
+    /*XML的方*/
 private:
    QSqlDatabase db;
    QSqlQuery* query;

@@ -126,16 +126,18 @@ public:
     std::map<int,std::vector<Route_node>*> route_map;
     //使用门面模式
     My_Sql* Get_Sql();
+    //加载数据
+    void Load_Data_From_Xml();
+    IView *v;
+    IControllerFactroy* factroy;
+    std::vector<XModel*> m_task;
 protected:
     /*位图实现对应的路线*/
     int m_route_used;
     My_Sql* sql;
-    IView *v = 0;
     Builder* Export;
     Ioperator* oper_do;
-    IControllerFactroy* factroy;   
     //所有的节点表
-    std::vector<XModel*> m_task;
     XSTATUS current_index = XPEN;
 
 };

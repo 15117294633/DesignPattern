@@ -22,6 +22,7 @@ public:
     QAction* findToolBarAction(QString text);
     void paintEvent(QPaintEvent *e);
     void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent*e);
     void mouseDoubleClickEvent(QMouseEvent *event);
     explicit Ximage(QWidget *parent = nullptr);

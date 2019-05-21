@@ -10,6 +10,7 @@
 #include "QMessageBox"
 #include "MainWindow.h"
 #include "RouteMange.h"
+#include "XmlHelper.h"
 Ximage::Ximage(QWidget *parent)
     : QWidget(parent),
       current_node_Dlg(new NodeDialog(this)),
@@ -68,15 +69,7 @@ void Ximage::rect_slot()
 }
 void Ximage::add_node_slot()
 {
-//     int count=c->Get_route_count();
-//     QString str=QString("add route is %1").arg(count);
-//     int ret=QMessageBox::information(this,"information",str,QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Cancel);
-//     if(ret==QMessageBox::Ok)
-//     {
-//        //添加一个对应的路线
-//         c->Add_Route(count+1);
-//        qDebug()<<"ADD OK";
-//     }
+
 }
 void Ximage::import_slot()
 {
@@ -156,12 +149,22 @@ void Ximage::on_delete_action_trigered()
            c->SetModel();
            if(c->Is_Valid_Point(e->x(),e->y()))
            {
-//               c->do_contral(e->x(),e->y());
                pMenu->popup(e->globalPos());
            }
 
       }
 
+ }
+ void Ximage::mouseReleaseEvent(QMouseEvent *e)
+ {
+     if((c->Get_Current_Data()==XMOVE)||(c->Get_Current_Data()==XCIRCLE))
+     {
+         if(c->m!=nullptr)
+         {
+            X_Pos pos(e->x(),e->y());
+            XmlHelper::Get_Obj()->UpdateXml(&pos,c->m->id,0);
+         }
+     }
  }
  void Ximage::mouseMoveEvent(QMouseEvent*e)
  {

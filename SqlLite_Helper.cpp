@@ -12,6 +12,8 @@ bool SqlLite_Helper::CreateDb()
 
      query=new QSqlQuery(db);
      query->exec("create table Node(id int primary key,type int,operator int,turn int,angle varchar,control int,control_type int,desc varchar)");
+     query->exec("create table Node_Loc(id int primary key,x_pos int,y_pos int)");
+     //线路的总数写入至配置文件当中
      db.close();
      return true;
 }

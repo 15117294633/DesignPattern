@@ -49,6 +49,7 @@ void XEditView::Update(XSubject *sub)
        //XModel
     XModel *m = static_cast<XModel*>(sub);
     //实际拿到是对应的
+    qDebug()<<m->id;
     views[m->type]->Draw(m);
 }
 //绘制结果

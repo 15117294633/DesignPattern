@@ -7,6 +7,7 @@
 #include "NodeDialog.h"
 #include "SqlLite_Helper.h"
 #include "IController.h"
+#include "XModel.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -55,6 +56,24 @@ int main(int argc, char *argv[])
      {
         qDebug()<<"ok";
      }
+//      X_Pos pos(999,1050);
+//     XmlHelper::Get_Obj()->Write_Xml();
+//     XmlHelper::Get_Obj()->Add_Xml_Route(1);
+//     XmlHelper::Get_Obj()->Add_Xml_Route(2);
+//     XmlHelper::Get_Obj()->Add_Xml_Route(3);
+
+//    XmlHelper::Get_Obj()->AddXml(&pos,1,0);
+//    XmlHelper::Get_Obj()->AddXml(&pos,2,0);
+//    XmlHelper::Get_Obj()->AddXml(&pos,3,0);
+
+//    XmlHelper::Get_Obj()->AddXml(&pos,4,1);
+//    XmlHelper::Get_Obj()->AddXml(&pos,5,1);
+//    XmlHelper::Get_Obj()->AddXml(&pos,6,1);
+////    XmlHelper::Get_Obj()->RemoveXml(2,0);
+////     XmlHelper::Get_Obj()->AddXml(&pos,4);
+//     X_Pos pos1(100,100);
+//     XmlHelper::Get_Obj()->UpdateXml(&pos1,3,0);
+//    XmlHelper::Get_Obj()->Read_Xml(pos1,0);
      MainWindow w;
      w.show();
 

@@ -10,14 +10,24 @@
 #include "DoRemoveRoute.h"
 #include "QFileDialog"
 #include "SqlLite_Helper.h"
+#include "XmlHelper.h"
 IController::IController()
 {
    /*选择导出方式,后期加入配置选项*/
     Export=new TxtBuild();
     this->Set_Bit(0);
     sql=SqlLite_Helper::Get_Obj();
-}
 
+
+    //this->update_c();
+}
+void IController::Load_Data_From_Xml()
+{
+//    XmlHelper::Set_Controller(*this);
+    XmlHelper::Get_Obj()->Load_Data_From_Xml();
+    NotfyAll();
+    this->update_c();
+}
 IController::~IController()
 {
 
@@ -28,6 +38,7 @@ IController* IController::Create(IControllerFactroy *f)
 {
     if (!f)return 0;
     IController *c = f->CreateC();
+    XmlHelper::Get_Obj()->Set_Controller(c);
     c->v = f->CreateV();
     c->factroy=f;
     return c;
@@ -35,6 +46,7 @@ IController* IController::Create(IControllerFactroy *f)
 void IController::InitDevice(void *d)
 {
     AddModel(XIMAGE);
+    this->Load_Data_From_Xml();
     this->v->InitDevice(d);
 }
 bool IController::InitBack(const char *url)
@@ -56,6 +68,13 @@ void IController::AddModel(int s)
    this->m->color=0;
    this->m->Attach(this->v);
    this->m_task.push_back(m);
+   /*新增一个节点*/
+   if(size>=1)
+   {
+      X_Pos pos(0,0);
+      XmlHelper::Get_Obj()->AddXml(&pos,this->m->id,0);
+   }
+
 }
 //删除最后一个模型
 void IController::RemoveModel()
@@ -63,6 +82,7 @@ void IController::RemoveModel()
     if(this->m_task.size()>1)
     {
       this->m_task.pop_back();
+      XmlHelper::Get_Obj()->RemoveXml(this->m_task.size(),0);
     }
     NotfyAll();
     this->update_c();
