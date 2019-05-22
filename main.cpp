@@ -8,6 +8,7 @@
 #include "SqlLite_Helper.h"
 #include "IController.h"
 #include "XModel.h"
+#include "iniFilePath.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -74,8 +75,9 @@ int main(int argc, char *argv[])
 //     X_Pos pos1(100,100);
 //     XmlHelper::Get_Obj()->UpdateXml(&pos1,3,0);
 //    XmlHelper::Get_Obj()->Read_Xml(pos1,0);
-     MainWindow w;
-     w.show();
+
+    MainWindow w;
+    w.show();
 
 
     //NodeDialog dia;

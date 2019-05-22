@@ -102,6 +102,7 @@ public:
     virtual void SetModel();
     //添加路线
     virtual int Get_route_count();
+    virtual void Add_Route();
     virtual void Add_Route(int num);
     virtual void Delete_Route(int num);
     virtual void Get_route(int num);
@@ -124,14 +125,15 @@ public:
     XModel *m;
     /*队列的方式存储对应的线路_map结构存储对应的数据*/
     std::map<int,std::vector<Route_node>*> route_map;
-    //使用门面模式
     My_Sql* Get_Sql();
     //加载数据
     void Load_Data_From_Xml();
+    void Load_Data_From_Sql();
     IView *v;
     IControllerFactroy* factroy;
     std::vector<XModel*> m_task;
 protected:
+    int m_current_route;
     /*位图实现对应的路线*/
     int m_route_used;
     My_Sql* sql;

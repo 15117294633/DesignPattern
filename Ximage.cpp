@@ -83,7 +83,7 @@ void Ximage::remove_node_slot()
 {
     findToolBarAction("Arrow")->setEnabled(true);
     findToolBarAction("Node")->setEnabled(true);
-   this->c->RemoveModel();
+    this->c->RemoveModel();
 }
 void Ximage::paintEvent(QPaintEvent *e)
 {

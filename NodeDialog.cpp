@@ -25,11 +25,11 @@ void NodeDialog::initControl()
     Node_type.addItem(tr("站点"));
     Node_type.addItem(tr("分叉点"));
     Node_type.addItem(tr("速度点"));
-    //站点操作
+
     Sta_op.addItem(tr("播放视频"));
     Sta_op.addItem(tr("播放音频"));
     Sta_op.addItem(tr("预留"));
-    //站点转向
+
     Sta_turn.addItem(tr("左转"));
     Sta_turn.addItem(tr("右转"));
     Equipment.addItem(tr("打开"));

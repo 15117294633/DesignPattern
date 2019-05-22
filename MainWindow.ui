@@ -73,7 +73,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>路径导出</string>
+     <string>路线导出</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Node_loc">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>61</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>节点坐标</string>
     </property>
    </widget>
   </widget>

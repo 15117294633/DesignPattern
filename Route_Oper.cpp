@@ -31,6 +31,7 @@ void Route_Oper::ok_btn_slot()
         this->Controller->Edit_route(index);
         break;
     }
+    this->Controller->update_c();
     this->close();
 }
 void Route_Oper::Set_Control(IController* con)

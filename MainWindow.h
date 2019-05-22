@@ -17,7 +17,6 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
-
     bool initToolBar();
     bool initEditToolItem(QToolBar* tb);
     bool makeAction(QAction*& action, QWidget* parent, QString text, int key);

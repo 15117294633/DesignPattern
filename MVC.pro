@@ -26,7 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        XimageEdit.cpp \
     Ximage.cpp \
     XEditView.cpp \
     XSubject.cpp \
@@ -45,12 +44,11 @@ SOURCES += \
     Route_Oper.cpp \
     Do_move.cpp \
     DoAddRoute.cpp \
-    DoRemoveRoute.cpp \
     SqlLite_Helper.cpp \
-    XmlHelper.cpp
+    XmlHelper.cpp \
+    iniFilePath.cpp
 
 HEADERS += \
-        XimageEdit.h \
     Ximage.h \
     XEditView.h \
     XSubject.h \
@@ -77,13 +75,15 @@ HEADERS += \
     IOperator.h \
     Do_move.h \
     DoAddRoute.h \
-    DoRemoveRoute.h \
     SqlLite_Helper.h \
     MySql.h \
-    XmlHelper.h
+    XmlHelper.h \
+    iniFilePath.h
 
 FORMS += \
     MainWindow.ui
 
 RESOURCES += \
     res.qrc
+
+RC_ICONS = ./tools.ico

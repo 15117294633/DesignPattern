@@ -7,26 +7,32 @@
 #include "TxtBuild.h"
 #include "Do_move.h"
 #include "DoAddRoute.h"
-#include "DoRemoveRoute.h"
 #include "QFileDialog"
 #include "SqlLite_Helper.h"
 #include "XmlHelper.h"
+#include "iniFilePath.h"
 IController::IController()
 {
    /*选择导出方式,后期加入配置选项*/
     Export=new TxtBuild();
-    this->Set_Bit(0);
+    int num;
+    iniFilePath::Get_Obj()->Read_from_Ini(num);
+    this->Set_Bit(num);
     sql=SqlLite_Helper::Get_Obj();
-
-
-    //this->update_c();
+}
+void IController::Load_Data_From_Sql()
+{
+    //从数据库中加载内容
+    int size=this->m_task.size();
+    for(int i=1;i<size;i++)
+    {
+        sql->FindNodeData(*m_task.at(i)->context,i);
+    }
 }
 void IController::Load_Data_From_Xml()
 {
-//    XmlHelper::Set_Controller(*this);
     XmlHelper::Get_Obj()->Load_Data_From_Xml();
     NotfyAll();
-    this->update_c();
 }
 IController::~IController()
 {
@@ -47,6 +53,7 @@ void IController::InitDevice(void *d)
 {
     AddModel(XIMAGE);
     this->Load_Data_From_Xml();
+    this->Load_Data_From_Sql();
     this->v->InitDevice(d);
 }
 bool IController::InitBack(const char *url)
@@ -83,6 +90,21 @@ void IController::RemoveModel()
     {
       this->m_task.pop_back();
       XmlHelper::Get_Obj()->RemoveXml(this->m_task.size(),0);
+      /*遍历map结构删除对应的节点*/
+      std::map<int,std::vector<Route_node>*>::iterator iter=route_map.begin();
+      for(;iter !=route_map.end();iter++)
+      {
+          this->curren_route=iter->second;
+         //对节点进行排序
+         Sort_Route_node();
+         int index=Find_Route_node(this->m_task.size());
+         if(index!=-1)//find it
+         {
+             this->curren_route->erase(curren_route->begin()+index);
+             XmlHelper::Get_Obj()->RemoveXml(this->m_task.size(),iter->first);
+         }
+      }
+
     }
     NotfyAll();
     this->update_c();
@@ -152,22 +174,40 @@ bool  IController::Is_Valid_Point(int x,int y)
     return ret;
 }
 //节点相关的操作
-void IController::Add_Route(int num)
+void IController::Add_Route()
 {
     std::vector<Route_node>* route=new  std::vector<Route_node>();
     this->curren_route=route;
     int index=this->Get_Bit_Unused();
+    this->m_current_route=index+1;//route1-route(index+1)
     if(index!=-1)
     {
         //遍历查找对应的下标 后期再改
         qDebug()<<"add route"<<index+1;
+        XmlHelper::Get_Obj()->Add_Xml_Route(index+1);
         route_map.insert(make_pair(index+1,route));
+        //更新对应的节点
+        Show_ALL_Node();
     }
     else
     {
 
     }
 
+}
+void IController::Add_Route(int num)
+{
+
+    std::vector<Route_node>* route=new  std::vector<Route_node>();
+    this->curren_route=route;
+    if(num!=-1)
+    {
+        route_map.insert(make_pair(num,route));
+    }
+    else
+    {
+
+    }
 }
 void IController::Delete_Route(int num)
 {
@@ -176,6 +216,7 @@ void IController::Delete_Route(int num)
     {
         if(iter->first==num)
         {
+            XmlHelper::Get_Obj()->Remove_Xml_Route(num);
             this->clear_bit(num-1);
             delete iter->second;
             route_map.erase(iter);
@@ -202,6 +243,7 @@ void IController::Get_route(int num)
 }
 void IController::Edit_route(int num)
 {
+    this->m_current_route=num;
     Get_route(num);
 }
 void IController::Show_ALL_Node()
@@ -247,6 +289,8 @@ void IController::Remove_Route_node()
          if(ret!=-1)
          {
              qDebug()<<"删除数据元素:"<<this->m->id<<"下标:"<<ret;
+             //删除对应的元素下标
+            XmlHelper::Get_Obj()->RemoveXml(this->m->id,this->m_current_route);
             m->color=0;
             this->curren_route->erase(curren_route->begin()+ret);
          }
@@ -262,10 +306,13 @@ void IController::Add_Route_ndoe()
 {
     Route_node node;
     node.id=m->id;
-        m->color=0;
+    m->color=0;
     int ret=Find_Route_node(m->id);
     if(ret=-1)
     {
+     /*向对应的xml节点中插入val*/
+      X_Pos pos(0,0);
+      XmlHelper::Get_Obj()->AddXml(&pos,m->id,this->m_current_route);
       m->color=1;
       curren_route->push_back(node);
       qDebug()<<"插入元素"<<this->m->id;
@@ -297,6 +344,8 @@ int IController::Get_Bit_Unused()
         if(!(m_route_used&(1<<i)))
         {
             m_route_used|=1<<i;
+            //val写入
+            iniFilePath::Get_Obj()->Write_to_Ini(m_route_used);
             return index;
         }
         else
@@ -314,6 +363,7 @@ void IController::clear_bit(int n)
 {
     //clear对应的位置
     m_route_used&=~(1<<n);
+    iniFilePath::Get_Obj()->Write_to_Ini(m_route_used);
 }
 My_Sql* IController:: Get_Sql()
 {
@@ -321,7 +371,26 @@ My_Sql* IController:: Get_Sql()
 }
 void  IController::import_route(QString fileName)
 {
-    //遍历对应的节点,后期改进_采用多线程的方式去完成
+    //场馆坐标点到处
+
+    QString tar_loc=QString("/pointer.txt");
+    QString name_loc=fileName+tar_loc;
+    QFile file1(name_loc);
+    if( file1.open(QIODevice::WriteOnly | QIODevice::Text) )
+    {
+        QTextStream out1(&file1);
+        int loc_size;
+        loc_size=this->m_task.size();
+        out1<<QString("num:%1").arg(loc_size-1)<<endl;
+        for(int i=1;i<loc_size;i++)
+        {
+            QString Pointer=QString("(%1,%2)").arg(this->m_task[i]->x_pos).arg(this->m_task[i]->y_pos);
+            out1<<Pointer<<endl;
+        }
+    }
+    file1.close();
+
+    //路线导出
     std::map<int,std::vector<Route_node>*>::iterator iter=route_map.begin();
     for(;iter !=route_map.end();iter++)
     {
@@ -334,8 +403,10 @@ void  IController::import_route(QString fileName)
         QFile file(path);
         if( file.open(QIODevice::WriteOnly | QIODevice::Text) )
         {
-            QTextStream out(&file);
+             QTextStream out(&file);
              int size=cur_route->size();
+             QString head_first=QString("route%1:%2").arg(iter->first).arg(size);
+             out<<head_first<<endl;
              for(int i=0;i<size;i++)
              {
                 out<<Export->builderData(this->m_task[cur_route->at(i).id]->context)<<endl;

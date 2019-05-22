@@ -23,6 +23,7 @@ public:
     void Load_Data_From_Xml();
     void Write_Xml();
     void Add_Xml_Route(int id);
+    void Remove_Xml_Route(int id);
     void AddXml(X_Pos* pos,int id,int type);
     void Read_Xml(int type);
     void RemoveXml(int id,int type);

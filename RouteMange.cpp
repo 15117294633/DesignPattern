@@ -22,14 +22,6 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
     connect(deleteroute,SIGNAL(clicked(bool)),this,SLOT(route_delete_slot()));
     connect(addroute,SIGNAL(clicked(bool)),this,SLOT(route_add_slot()));
     connect(showroute,SIGNAL(clicked(bool)),this,SLOT(route_show_slot()));
-    /*更新一下对应的线路*/
-//    int len;
-//    len=this->Controller->Get_route_count();
-//    for(int i=0;i<len;i++)
-//    {
-//        QString str=QString("route%1").arg(i);
-//        route_oper->route->addItem(str);
-//    }
 
 }
  void RouteMange::Set_Control(IController* con)
@@ -68,7 +60,7 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
      {
          this->Controller->Set_Current_Index(XADDROUTE);
          /*加入对应的节点*/
-         Controller->Add_Route(1);
+         Controller->Add_Route();
      }
      Add_Items();
      this->close();

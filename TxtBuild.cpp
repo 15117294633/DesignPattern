@@ -100,7 +100,7 @@ QString TxtBuild::builderData(Node_Content* content)
      }
      for(int i=len;i<20;i++)
      {
-        con.append('  ');
+        con.append("  ");
      }
      qDebug()<<con;
      return con;

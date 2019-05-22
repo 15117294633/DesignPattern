@@ -54,9 +54,9 @@ void SqlLite_Helper::FindNodeData(Node_Content& node,int id)
    db.open();
    sql = QString("select * from Node where id = '%1'").arg(id);
    query->exec(sql);
-   qDebug()<<sql;
    while( query->next())
    {
+      node.node_id=query->value(0).toInt();
       node.type=query->value(1).toInt();
       node.Operator=query->value(2).toInt();
       node.dir=query->value(3).toInt();
@@ -64,7 +64,6 @@ void SqlLite_Helper::FindNodeData(Node_Content& node,int id)
       node.Equ_Sta=query->value(5).toInt();
       node.Equ_Type=query->value(6).toInt();
       node.Desc=query->value(7).toString();
-      qDebug()<<query->value(7).toString();
    }
    db.close();
 }
