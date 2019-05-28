@@ -83,8 +83,8 @@ RouteMange::RouteMange(QWidget *parent) : QDialog(parent),
      len=this->Controller->Get_route_count();
      if(len>=1)
       {
-            std::map<int,std::vector<Route_node>*>::iterator iter;
-            for(iter=this->Controller->route_map.begin();iter!=this->Controller->route_map.end();iter++)
+            std::map<int,QList<Route_node>*>::iterator iter;
+            for(iter=this->Controller->route_map_list.begin();iter!=this->Controller->route_map_list.end();iter++)
             {
                 QString str=QString("route%1").arg(iter->first);
                 this->route_oper->route->addItem(str);

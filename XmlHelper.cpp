@@ -14,47 +14,6 @@ void  XmlHelper::Set_Controller(IController* c)
 void XmlHelper::Load_Data_From_Xml()
 {
     Read_Xml(0);
-    /*加载剩余节点*/
-    QFile file("test.xml");
-    if(!file.open(QIODevice::ReadOnly|QFile::Text))
-            return;
-    QDomDocument doc;
-    if(!doc.setContent(&file))
-    {
-        file.close();
-        return;
-    }
-    /*加载剩余节点至对应的map中*/
-    QDomNodeList list_route=doc.elementsByTagName("route");
-   int size=list_route.count();
-   for(int i=0;i<size;i++)
-    {
-       QDomElement e=list_route.at(i).toElement();
-       int type_id=e.attribute("type").toInt();
-       if(type_id!=0)
-       {
-            this->Controller->Add_Route(type_id);
-            QDomNodeList list= list_route.at(i).childNodes();
-            int size=list.count();
-            for(int j=0;j<size;j++)
-            {
-
-                QDomElement e=list.at(j).toElement();
-                int val=e.attribute("id").toInt();
-                Route_node route_node;
-                route_node.id=val;
-                this->Controller->curren_route->push_back(route_node);
-            }
-      }
-   }
-    /*end*/
-    if(!file.open(QFile::WriteOnly|QFile::Truncate))
-        return;
-    QTextStream out_stream(&file);
-    doc.save(out_stream,4); //缩进4格
-    file.close();
-
-
 }
 void XmlHelper::Write_Xml()
 {
@@ -280,6 +239,7 @@ void XmlHelper::RemoveXml(int id,int type)
     file.close();
 
 }
+//遍历并更新数据元素
 void XmlHelper::UpdateXml(X_Pos* pos,int id,int type)
 {
     QFile file("test.xml"); //相对路径、绝对路径、资源路径都可以
@@ -293,13 +253,25 @@ void XmlHelper::UpdateXml(X_Pos* pos,int id,int type)
     }
     file.close();
 
-    QDomNodeList list_route=doc.elementsByTagName("route");
-    QDomNode node_a=list_route.at(type);//get 0 index
+   QDomNodeList list_route=doc.elementsByTagName("route");
 
-    QDomNodeList list=node_a.childNodes();
+   QDomNode node_a=list_route.at(type);//get 0 index
+
+    QDomNodeList route_0=node_a.childNodes();
+
+    int index=0;
+    for(int i=0;i<route_0.size();i++)
+    {
+        QDomElement e=route_0.at(i).toElement();
+        if(e.attribute("id").toInt()==id)
+        {
+              index=i;
+              break;
+        }
+     }
     //遍历进行数据元素update
-    QDomNode node=list.at(id-1).firstChild();
-    QDomNode node1=list.at(id-1).lastChild();
+    QDomNode node=route_0.at(index).firstChild();
+    QDomNode node1=route_0.at(index).lastChild();
 
     QDomNode oldnode=node.firstChild();
     QDomNode oldnode1=node1.firstChild();

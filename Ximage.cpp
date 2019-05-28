@@ -11,9 +11,11 @@
 #include "MainWindow.h"
 #include "RouteMange.h"
 #include "XmlHelper.h"
+#include "AddRouteNodeDialog.h"
 Ximage::Ximage(QWidget *parent)
     : QWidget(parent),
       current_node_Dlg(new NodeDialog(this)),
+      addRouteNodeDialog(new AddRouteNode(this)),
       route_mange(new RouteMange(this))
 {
     /*创建一个菜单项*/
@@ -30,6 +32,14 @@ Ximage::Ximage(QWidget *parent)
     pAction1->setText(tr("删除节点"));
     connect(pAction1,SIGNAL(triggered()),this,SLOT(on_delete_action_trigered()));
     pMenu->addAction(pAction1);
+
+    /*路线管理弹出式菜单*/
+    pMenu_r=new QMenu(this);
+
+    QAction *pAction3 = new QAction(pMenu_r);
+    pAction3->setText(tr("删除路线节点"));
+    pMenu_r->addAction(pAction3);
+    connect(pAction3,SIGNAL(triggered()),this,SLOT(remove_route_node()));
 
     c=IController::Create(new XControllerFactory());
     c->InitDevice(this);
@@ -78,12 +88,14 @@ void Ximage::import_slot()
                                                                         QFileDialog::ShowDirsOnly
                                                                         | QFileDialog::DontResolveSymlinks);
   this->c->import_route(dir);
+  c->import_route("route");
 }
 void Ximage::remove_node_slot()
 {
     findToolBarAction("Arrow")->setEnabled(true);
     findToolBarAction("Node")->setEnabled(true);
-    this->c->RemoveModel();
+     c->Load_Route_Node();
+//    this->c->RemoveModel();
 }
 void Ximage::paintEvent(QPaintEvent *e)
 {
@@ -112,11 +124,24 @@ void Ximage::route_mange_slot()
     findToolBarAction("Node")->setEnabled(false);
     route_mange->show();
 }
+/*路线节点管理*/
+void Ximage::add_route_node()
+{
+
+}
+void Ximage::remove_route_node()
+{
+    c->RemoveModel();
+}
+//节点管理
 void Ximage::on_action_trigered()
 {
     //调用对应的策略更新组件
-    c->Add_Route_ndoe();
-    update();
+    addRouteNodeDialog->show();
+    addRouteNodeDialog->Set_Control(c);
+    int ret=c->Find_Route_node_before();
+    qDebug()<<"Find route before"<<ret;
+    addRouteNodeDialog->Set_Curent_index(ret);
 }
 void Ximage::on_delete_action_trigered()
 {
@@ -126,7 +151,6 @@ void Ximage::on_delete_action_trigered()
 
  void Ximage::mousePressEvent(QMouseEvent *e)
  {
-     qDebug()<<e->x()<<e->y();
      /*模型用于添加数据*/
      if(e->button()==Qt::LeftButton)
      {
@@ -153,18 +177,29 @@ void Ximage::on_delete_action_trigered()
            }
 
       }
+      if(e->button() ==Qt::RightButton&&(c->Get_Current_Data()==XMOVE))
+      {
+          if(c->Is_Valid_Point(e->x(),e->y()))
+          {
+              pMenu_r->popup(e->globalPos());
+          }
+      }
 
  }
  void Ximage::mouseReleaseEvent(QMouseEvent *e)
  {
+     qDebug()<<"mouseReleaseEvent";
      if((c->Get_Current_Data()==XMOVE)||(c->Get_Current_Data()==XCIRCLE))
      {
          if(c->m!=nullptr)
          {
+            qDebug()<<c->m->id;
+            qDebug()<<e->x()<<e->y();
             X_Pos pos(e->x(),e->y());
             XmlHelper::Get_Obj()->UpdateXml(&pos,c->m->id,0);
          }
      }
+     qDebug()<<"mouseReleaseEvent end";
  }
  void Ximage::mouseMoveEvent(QMouseEvent*e)
  {

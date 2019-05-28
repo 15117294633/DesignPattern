@@ -21,6 +21,10 @@ void XModel::Add(X_Pos pos,int type)
    this->y_pos=pos.y;
     /*更新pos的val*/
 }
+bool XModel::operator < (const XModel& m)
+{
+    return this->id<m.id;
+}
 bool XModel::operator == (const XModel& model)
 {
     int r=(this->x_pos-model.x_pos)*(this->x_pos-model.x_pos)+

@@ -46,7 +46,10 @@ SOURCES += \
     DoAddRoute.cpp \
     SqlLite_Helper.cpp \
     XmlHelper.cpp \
-    iniFilePath.cpp
+    iniFilePath.cpp \
+    Route_Id_Man.cpp \
+    Init_Param.cpp \
+    AddRouteNodeDialog.cpp
 
 HEADERS += \
     Ximage.h \
@@ -78,7 +81,10 @@ HEADERS += \
     SqlLite_Helper.h \
     MySql.h \
     XmlHelper.h \
-    iniFilePath.h
+    iniFilePath.h \
+    Route_Id_Man.h \
+    Init_Param.h \
+    AddRouteNodeDialog.h
 
 FORMS += \
     MainWindow.ui

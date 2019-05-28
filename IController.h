@@ -10,6 +10,7 @@ class Ioperator;
 #include "QDebug"
 #include "build.h"
 #include "map"
+#include "QList"
 enum XSTATUS
 {
     XPEN,
@@ -107,11 +108,13 @@ public:
     virtual void Delete_Route(int num);
     virtual void Get_route(int num);
     virtual void Edit_route(int num);
-
+    //路线结点操作
+    virtual int Find_Route_node_before();
     virtual void Sort_Route_node();
     virtual int Find_Route_node(int index);
     virtual void Remove_Route_node();
-    virtual void Add_Route_ndoe();
+    virtual bool Add_Route_node();
+    virtual bool Add_Route_node(int num);
     virtual void Show_ALL_Node();
     /*获取位图*/
     virtual int Get_Bit_Unused();
@@ -121,14 +124,17 @@ public:
     virtual void update_c();
     //路径导出功能
     virtual void import_route(QString fileName);
-    std::vector<Route_node>* curren_route;
+    QList<Route_node>* curren_route;
     XModel *m;
     /*队列的方式存储对应的线路_map结构存储对应的数据*/
-    std::map<int,std::vector<Route_node>*> route_map;
+    std::map<int,QList<Route_node>*> route_map_list;
     My_Sql* Get_Sql();
     //加载数据
     void Load_Data_From_Xml();
     void Load_Data_From_Sql();
+    void Load_Route_Node();
+    //对队列进行排序
+public:
     IView *v;
     IControllerFactroy* factroy;
     std::vector<XModel*> m_task;

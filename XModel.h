@@ -27,6 +27,7 @@ public:
     /*里面有一个类用于存放*/
     std::vector<X_Pos> pos;
     void Add(X_Pos pos,int type);
+    bool operator < (const XModel& m);
     bool operator == (const XModel& model);
     XModel& operator = (const XModel& obj);
     /*更新对应的context数据*/

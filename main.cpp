@@ -9,6 +9,8 @@
 #include "IController.h"
 #include "XModel.h"
 #include "iniFilePath.h"
+#include "Route_Id_Man.h"
+#include "Init_Param.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -70,16 +72,28 @@ int main(int argc, char *argv[])
 //    XmlHelper::Get_Obj()->AddXml(&pos,4,1);
 //    XmlHelper::Get_Obj()->AddXml(&pos,5,1);
 //    XmlHelper::Get_Obj()->AddXml(&pos,6,1);
-////    XmlHelper::Get_Obj()->RemoveXml(2,0);
-////     XmlHelper::Get_Obj()->AddXml(&pos,4);
-//     X_Pos pos1(100,100);
-//     XmlHelper::Get_Obj()->UpdateXml(&pos1,3,0);
+//    XmlHelper::Get_Obj()->RemoveXml(2,0);
+//    XmlHelper::Get_Obj()->AddXml(&pos,4);
+//    X_Pos pos1(100,100);
+//    XmlHelper::Get_Obj()->UpdateXml(&pos1,3,0);
 //    XmlHelper::Get_Obj()->Read_Xml(pos1,0);
-
+    Init_Param::Get_Obj()->Creat_Folder();
     MainWindow w;
     w.show();
+//      Route_Id_Man::Get_Obj()->Set_Route_Bit(0XFFFFFFFF,0);
+//      Route_Id_Man::Get_Obj()->Set_Route_Bit(0XFFFFFFFF,1);
 
+//      Route_Id_Man::Get_Obj()->Set_Route_Bit(0XFFFFFFFF,2);
+//      Route_Id_Man::Get_Obj()->Set_Route_Bit(0XFFFFFFFF,3);
+//      Route_Id_Man::Get_Obj()->Set_Route_Bit(0XFFFFFFFF,4);
 
+//      Route_Id_Man::Get_Obj()->Set_Route_Bit(0XFFFFFFFF,5);
+
+//      for(int i=0;i<36;i++)
+//      {
+//          qDebug()<<Route_Id_Man::Get_Obj()->Get_Route_Id();
+//      }
+//     Route_Id_Man::Get_Obj()->Clear_Route_Id(1);
     //NodeDialog dia;
 
     //dia.show();
